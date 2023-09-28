@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import DuScreen from './welcome-screen/DuScreen'
 import DuHastScreen from './welcome-screen/DuHastScreen'
 import DuHastMichScreen from './welcome-screen/DuHastMichScreen'
+import backendTestScreen from './welcome-screen/backendTestScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -13,6 +14,7 @@ type RootStackParamList = {
   DuScreen: undefined
   DuHastScreen: undefined
   DuHastMichScreen: undefined
+  backendTestScreen: undefined
 }
 
 export type NavigationProp = StackNavigationProp<RootStackParamList>
@@ -24,6 +26,7 @@ export default function App() {
         <Stack.Screen name="DuScreen" component={DuScreen} />
         <Stack.Screen name="DuHastScreen" component={DuHastScreen} />
         <Stack.Screen name="DuHastMichScreen" component={DuHastMichScreen} />
+        <Stack.Screen name="backendTestScreen" component={backendTestScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
