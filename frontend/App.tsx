@@ -22,7 +22,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Find your car" component={WelcomeScreen} />
+        <Stack.Screen
+          name="Find your car"
+          component={WelcomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="DuHastScreen" component={DuHastScreen} />
         <Stack.Screen name="DuHastMichScreen" component={DuHastMichScreen} />
         <Stack.Screen name="backendTestScreen" component={backendTestScreen} />
