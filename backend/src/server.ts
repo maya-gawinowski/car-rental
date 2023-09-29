@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 
 const app: Express = express();
-const PORT: number = 5000;
+const PORT: number = 3000;
 
 interface Car {
     id: number;
