@@ -8,8 +8,8 @@ interface DuProps {
 
 const DuHastMichScreen = ({ navigation }: DuProps) => (
   <Du
-    title="Du hast mich"
-    onPress={() => navigation.navigate('DuHastMichScreen')}
+    title="backendTestScreen"
+    onPress={() => navigation.navigate('backendTestScreen')}
   />
 )
 
