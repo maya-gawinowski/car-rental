@@ -1,0 +1,8 @@
+{
+    "cities": [
+        {"key": "1", "value": "Odense"},
+        {"key": "2", "value": "Aarhus"},
+        {"key": "3", "value": "Aalborg"},
+        {"key": "4", "value": "Roskilde"}
+    ]
+}
