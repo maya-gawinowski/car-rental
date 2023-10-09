@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, Platform, StyleSheet, TouchableOpacity, ImageBackground,SafeAreaView, ScrollView } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {ImageBackground, Platform, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native'
 import axios from 'axios'
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import CarCard from './components/CarCard';
 import CustomHeader from './components/CarDisplayerHeader';
+import {RootStackParamList} from "../RootStackParamList";
+
 const background = require('../icons/background-or.png');
-type CarDisplayRouteParams = {
-  selectedPlace: string;
-  departureDate: Date;
-  returnDate: Date;
-  selectedSeatsNumber: number;
-  locations: string[];
-};
-type RootStackParamList = {
-  CarDisplayScreen: CarDisplayRouteParams;
-};
+
 type CarsListScreenRouteProp = RouteProp<RootStackParamList, 'CarDisplayScreen'>;
 type CarsListScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CarDisplayScreen'>;
 
@@ -67,14 +60,16 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
     <View style={styles.container}>
     <ImageBackground source={background} resizeMode={"cover"} style={styles.image}>
     <CustomHeader 
-          navigation={navigation} 
+          navigation={navigation}
           title={selectedPlace} 
           subtitle={`${formattedDepartureDate} - ${formattedReturnDate}`} 
         />
     <SafeAreaView>
       <ScrollView>
         {cars.map((car, index) => (
-          <CarCard key={index} car={car} />
+          <CarCard key={index} car={car} onPress={() => navigation.navigate('CarPageScreen', {
+            carId: car.id
+          })} />
         ))}
       </ScrollView>
     </SafeAreaView>

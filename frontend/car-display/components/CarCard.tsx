@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {ChooseButton} from "./ChooseButton";
+
 interface CarCardProps {
+    onPress: () => void,
     car: {
         id: string;
         brand: string;
@@ -12,7 +15,7 @@ interface CarCardProps {
         picture: string;
     };
 }
-const CarCard = ({ car }: CarCardProps) => {
+const CarCard = ({ car, onPress }: CarCardProps) => {
   return (
     <View style={styles.container}>
     <View style={styles.card}>
@@ -23,6 +26,7 @@ const CarCard = ({ car }: CarCardProps) => {
         <Text style={styles.seatsText}>{car.numberOfSeats} seats</Text>
         <Text style={styles.transmissionText}>{car.isAutomatic ? 'Automatic' : 'Manual'}</Text>
       </View>
+      <ChooseButton onPress={onPress}></ChooseButton>
     </View>
     </View>
   );
