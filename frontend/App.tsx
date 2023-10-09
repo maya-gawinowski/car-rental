@@ -3,17 +3,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { StyleSheet } from 'react-native'
 import DuHastMichScreen from './welcome-screen/DuHastMichScreen'
-import backendTestScreen from './welcome-screen/backendTestScreen'
+import CarDisplayScreen from './car-display/CarDisplayScreen'
 import DuHastScreen from './welcome-screen/DuHastScreen'
 import WelcomeScreen from './welcome-screen/WelcomeScreen'
 
-const Stack = createNativeStackNavigator()
-
+const Stack = createNativeStackNavigator<RootStackParamList>()
 type RootStackParamList = {
-  DuScreen: undefined
+  WelcomeScreen: undefined
   DuHastScreen: undefined
   DuHastMichScreen: undefined
-  backendTestScreen: undefined
+  CarDisplayScreen: {
+    selectedPlace: string;
+    departureDate: Date;
+    returnDate: Date;
+    selectedSeatsNumber: number;
+    locations: string[];
+  };
 }
 
 export type NavigationProp = StackNavigationProp<RootStackParamList>
@@ -23,7 +28,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Find your car"
+          name="WelcomeScreen"
           component={WelcomeScreen}
           options={{
             headerShown: false,
@@ -31,7 +36,11 @@ export default function App() {
         />
         <Stack.Screen name="DuHastScreen" component={DuHastScreen} />
         <Stack.Screen name="DuHastMichScreen" component={DuHastMichScreen} />
-        <Stack.Screen name="backendTestScreen" component={backendTestScreen} />
+        <Stack.Screen name="CarDisplayScreen" component={CarDisplayScreen}
+        options={{
+          headerShown: false,
+        }}
+         />
       </Stack.Navigator>
     </NavigationContainer>
   )
