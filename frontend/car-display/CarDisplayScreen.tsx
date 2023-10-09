@@ -44,7 +44,7 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
-    const url = `http://${host}:3000/cars/${selectedPlace}`;
+    const url = `http://${host}:3000/cars?location=${selectedPlace}`;
     axios.get(url)
       .then(response => {
         setCars(response.data);
