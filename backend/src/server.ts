@@ -287,18 +287,23 @@ const Roskilde : Location = {
 }
 const locations: Location[] = [Odense, Aarhus, Copenhagen, Roskilde];
 app.get('/cars', (req: Request, res: Response) => {
+  let searchResult = cars;
   const locationQuery = req.query.location;
-  if (locationQuery == null) {
-    res.json(cars);
-  } else {
+  const seatsQuery = req.query.seats;
+  if (locationQuery != null) {
     const location = locations.find(l => l.name.toLowerCase() === locationQuery.toString().toLowerCase());
     if (location) {
-      const locationCars = cars.filter(car => location.cars.includes(car.id));
-      res.json(locationCars);
+      searchResult = searchResult.filter(car => location.cars.includes(car.id));
     } else {
       res.status(404).send('Location not found');
     }
   }
+  if (seatsQuery != null) {
+    const numberOfSeats = parseInt(seatsQuery.toString());
+    searchResult = searchResult.filter(car => car.numberOfSeats == numberOfSeats);
+  }
+  res.json(searchResult);
+
 
 });
 app.get('/locations', (req: Request, res: Response) => {
