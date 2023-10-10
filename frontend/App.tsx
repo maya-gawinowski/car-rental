@@ -1,27 +1,20 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { StyleSheet } from 'react-native'
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {StackNavigationProp} from '@react-navigation/stack'
+import {StyleSheet} from 'react-native'
 import DuHastMichScreen from './welcome-screen/DuHastMichScreen'
 import CarDisplayScreen from './car-display/CarDisplayScreen'
 import DuHastScreen from './welcome-screen/DuHastScreen'
 import WelcomeScreen from './welcome-screen/WelcomeScreen'
+import CarPageScreen from "./car-page/CarPageScreen";
+import {RootStackParamList} from "./RootStackParamList";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
-type RootStackParamList = {
-  WelcomeScreen: undefined
-  DuHastScreen: undefined
-  DuHastMichScreen: undefined
-  CarDisplayScreen: {
-    selectedPlace: string;
-    departureDate: Date;
-    returnDate: Date;
-    selectedSeatsNumber: number;
-    locations: string[];
-  };
-}
 
 export type NavigationProp = StackNavigationProp<RootStackParamList>
+
+// when adding new screen update file RootStackParamList with its props
+// otherwise strange error occurs
 
 export default function App() {
   return (
@@ -41,6 +34,11 @@ export default function App() {
           headerShown: false,
         }}
          />
+        <Stack.Screen name="CarPageScreen" component={CarPageScreen}
+        options={{
+          headerShown: true,
+          title: "Car details"
+        }}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

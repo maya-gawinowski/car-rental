@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, StyleSheet} from "react-native";
 import React from "react";
-import {goLessColors} from "../colors";
+import {goLessColors} from "../welcome-screen/colors";
 
 export const AppButton = ({onPress, title}: { onPress: () => void, title: string }) => (
   <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>

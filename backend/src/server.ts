@@ -200,7 +200,6 @@ const cars: Car[] = [
         "isElectric": false,
         "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Aston-Martin_Vantage_%281973%29_%2834328531642%29.jpg/420px-Aston-Martin_Vantage_%281973%29_%2834328531642%29.jpg"
       },
-    
       {
         "id": "21",
         "model": "Volkswagen Golf",
@@ -288,20 +287,31 @@ const Roskilde : Location = {
 }
 const locations: Location[] = [Odense, Aarhus, Copenhagen, Roskilde];
 app.get('/cars', (req: Request, res: Response) => {
+  const locationQuery = req.query.location;
+  if (locationQuery == null) {
     res.json(cars);
+  } else {
+    const location = locations.find(l => l.name.toLowerCase() === locationQuery.toString().toLowerCase());
+    if (location) {
+      const locationCars = cars.filter(car => location.cars.includes(car.id));
+      res.json(locationCars);
+    } else {
+      res.status(404).send('Location not found');
+    }
+  }
+
 });
 app.get('/locations', (req: Request, res: Response) => {
     res.json(locations);
 });
-app.get('/cars/:locationName', (req: Request, res: Response) => {
-    const locationName = req.params.locationName;
-    const location = locations.find(l => l.name.toLowerCase() === locationName.toLowerCase());
-    if (location) {
-        const locationCars = cars.filter(car => location.cars.includes(car.id));
-        res.json(locationCars);
-    } else {
-        res.status(404).send('Location not found');
-    }
+app.get('/cars/:carId', (req: Request, res: Response) => {
+  const carId = req.params.carId;
+  const car = cars.find(c => c.id === carId);
+  if (car) {
+    res.json(car);
+  } else {
+    res.status(404).send('Car not found')
+  }
 });
 
 app.listen(PORT, () => {

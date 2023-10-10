@@ -3,7 +3,7 @@ import {Image, ImageBackground, StyleSheet, Text, View, Platform} from 'react-na
 import {SelectList} from 'react-native-dropdown-select-list';
 import {NavigationProp} from '../App';
 import {AppSingleDatePicker} from "./components/AppSingleDatePicker";
-import {AppButton} from "./components/AppButton";
+import {AppButton} from "../components/AppButton";
 import {goLessColors} from "./colors";
 import {AppRoundButton} from "./components/AppRoundButton";
 import axios from "axios";
