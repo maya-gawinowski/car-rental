@@ -1,25 +1,44 @@
-import React, {useState} from 'react';
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Image, ImageBackground, StyleSheet, Text, View, Platform} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {NavigationProp} from '../App';
 import {AppSingleDatePicker} from "./components/AppSingleDatePicker";
 import {AppButton} from "./components/AppButton";
 import {goLessColors} from "./colors";
 import {AppRoundButton} from "./components/AppRoundButton";
+import axios from "axios";
 
 const logo = require('../icons/car-logo.png');
 const background = require('../icons/background-or.png');
-const dummy = require('../dummy.json')
-
 interface DuProps {
   navigation: NavigationProp
 }
 
 const WelcomeScreen = ({navigation}: DuProps) => {
+  type location = {
+    id: number
+    name: string
+  }
   const [selectedPlace, setSelectedPlace] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4);
+  const [locations, setLocations] = useState<location[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
+        const url = `http://${host}:3000/locations`
+        const response = await axios.get(url)
+        setLocations(response.data)
+      } catch (error) {
+        console.error('There was an error fetching data', error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <View
@@ -51,7 +70,9 @@ const WelcomeScreen = ({navigation}: DuProps) => {
               borderColor: goLessColors.darkBlue
             }}
             setSelected={(val: React.SetStateAction<string>) => setSelectedPlace(val)}
-            data={dummy.cities}
+            data={locations.map((location) => {
+              return {label: location.name, value: location.name}
+            })}
             save='value'
             placeholder='Choose your city'
           />
@@ -78,9 +99,14 @@ const WelcomeScreen = ({navigation}: DuProps) => {
             }} title={'+'}/>
           </View>
           <View style={styles.buttonView}>
-            <AppButton title="Find a car" onPress={() => navigation.navigate('DuHastScreen')}/>
+            <AppButton title="Find a car" onPress={() => navigation.navigate('CarDisplayScreen', {
+              selectedPlace: selectedPlace,
+              departureDate: departureDate,
+              returnDate: returnDate,
+              selectedSeatsNumber: selectedSeatsNumber,
+              locations: locations.map((location) => location.name)
+            })}/>
           </View>
-
         </View>
       </ImageBackground>
     </View>

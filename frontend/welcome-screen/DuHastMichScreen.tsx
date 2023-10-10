@@ -9,7 +9,7 @@ interface DuProps {
 const DuHastMichScreen = ({ navigation }: DuProps) => (
   <Du
     title="backendTestScreen"
-    onPress={() => navigation.navigate('backendTestScreen')}
+    onPress={() => navigation.navigate('DuHastScreen')}
   />
 )
 
