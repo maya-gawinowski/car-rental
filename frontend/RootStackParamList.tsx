@@ -11,5 +11,7 @@ export type RootStackParamList = {
   };
   CarPageScreen: {
     carId: string;
+    departureDate: Date;
+    returnDate: Date;
   }
 }

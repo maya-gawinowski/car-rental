@@ -29,7 +29,6 @@ type carItem = {
 }
 
 const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
-  const background = require('../icons/background-or.png');
   const { selectedPlace, departureDate, returnDate, selectedSeatsNumber, locations } = route.params;
   const [cars, setCars] = useState<carItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +67,9 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
       <ScrollView>
         {cars.map((car, index) => (
           <CarCard key={index} car={car} onPress={() => navigation.navigate('CarPageScreen', {
-            carId: car.id
+            carId: car.id,
+            departureDate: departureDate,
+            returnDate: returnDate
           })} />
         ))}
       </ScrollView>
@@ -92,7 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  
 });
 
 export default CarDisplayScreen;
