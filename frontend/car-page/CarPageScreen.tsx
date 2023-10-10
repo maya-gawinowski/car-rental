@@ -4,7 +4,7 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {goLessColors} from "../welcome-screen/colors";
-import {AppButton} from "../welcome-screen/components/AppButton";
+import {AppButton} from "../components/AppButton";
 import {RootStackParamList} from "../RootStackParamList";
 
 const background = require('../icons/background-or.png');
