@@ -35,7 +35,7 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    restClient.searchCars({locationName: selectedPlace, numberOfSeats: selectedSeatsNumber})
+    restClient.searchCars({locationName: selectedPlace, seats: selectedSeatsNumber})
       .then(response => {
         setCars(response);
         setLoading(false);

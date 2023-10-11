@@ -18,10 +18,8 @@ export class RestClient {
   }
 
   public async searchCars(criteria: CarCriteria): Promise<CarItem[]> {
-    let url = `http://${this.host}:3000/cars`;
-    url = url.concat(`?location=${criteria.locationName}`);
-    url = url.concat(`&seats=${criteria.numberOfSeats}`);
-    const response = await axios.get(url);
+    const url = `http://${this.host}:3000/cars`;
+    const response = await axios.get(url, {params: criteria});
     return response.data;
   }
 

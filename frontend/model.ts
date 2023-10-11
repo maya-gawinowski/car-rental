@@ -10,8 +10,8 @@ export interface CarItem {
 }
 
 export interface CarCriteria {
-  locationName: string;
-  numberOfSeats: number;
+  locationName?: string;
+  seats?: number;
 }
 
 export interface Location {

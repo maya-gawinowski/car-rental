@@ -1,7 +1,9 @@
 import express, { Express, Request, Response } from 'express';
 
+const morgan = require('morgan')
 const app: Express = express();
 const PORT: number = 3000;
+
 interface Location {
     id: string;
     name: string;
@@ -286,6 +288,10 @@ const Roskilde : Location = {
     cars: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 }
 const locations: Location[] = [Odense, Aarhus, Copenhagen, Roskilde];
+
+// default logging
+app.use(morgan())
+
 app.get('/cars', (req: Request, res: Response) => {
   let searchResult = cars;
   const locationQuery = req.query.location;
