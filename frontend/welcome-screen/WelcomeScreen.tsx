@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {Image, ImageBackground, StyleSheet, Text, View, Platform} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {NavigationProp} from '../App';
 import {AppSingleDatePicker} from "./components/AppSingleDatePicker";
 import {AppButton} from "../components/AppButton";
 import {goLessColors} from "./colors";
 import {AppRoundButton} from "./components/AppRoundButton";
-import axios from "axios";
+import {Location} from "../model";
+import {RestClient} from "../RestClient";
 
 const logo = require('../icons/car-logo.png');
 const background = require('../icons/background-or.png');
@@ -15,29 +16,17 @@ interface DuProps {
 }
 
 const WelcomeScreen = ({navigation}: DuProps) => {
-  type location = {
-    id: number
-    name: string
-  }
   const [selectedPlace, setSelectedPlace] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4);
-  const [locations, setLocations] = useState<location[]>([])
+  const [locations, setLocations] = useState<Location[]>([])
+  const restClient = RestClient.getInstance();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
-        const url = `http://${host}:3000/locations`
-        const response = await axios.get(url)
-        setLocations(response.data)
-      } catch (error) {
-        console.error('There was an error fetching data', error)
-      }
-    }
-
-    fetchData()
+    restClient.getLocations()
+      .then(response => setLocations(response))
+      .catch(error => console.error('Error fetching locations', error));
   }, [])
 
   return (

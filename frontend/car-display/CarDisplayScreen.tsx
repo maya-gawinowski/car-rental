@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {ImageBackground, Platform, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native'
-import axios from 'axios'
+import {ImageBackground, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native'
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import CarCard from './components/CarCard';
 import CustomHeader from './components/CarDisplayerHeader';
 import {RootStackParamList} from "../RootStackParamList";
+import {CarItem} from "../model";
+import {RestClient} from "../RestClient";
 
 const background = require('../icons/background-or.png');
 
@@ -17,23 +18,15 @@ type Props = {
   route: CarsListScreenRouteProp;
   navigation: CarsListScreenNavigationProp;
 };
-type carItem = {
-    id: string;
-    brand: string;
-    model: string;
-    pricePerDay: number;
-    numberOfSeats: number;
-    isAutomatic: boolean;
-    isElectric: boolean;
-    picture: string;
-}
 
 const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
   const { selectedPlace, departureDate, returnDate, selectedSeatsNumber, locations } = route.params;
-  const [cars, setCars] = useState<carItem[]>([]);
+  const [cars, setCars] = useState<CarItem[]>([]);
   const [loading, setLoading] = useState(true);
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();
+  const restClient = RestClient.getInstance();
+
   console.log({
     selectedPlace,
     departureDate,
@@ -42,11 +35,9 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
-    const url = `http://${host}:3000/cars?location=${selectedPlace}`;
-    axios.get(url)
+    restClient.searchCars({locationName: selectedPlace, seats: selectedSeatsNumber})
       .then(response => {
-        setCars(response.data);
+        setCars(response);
         setLoading(false);
       })
       .catch(error => {

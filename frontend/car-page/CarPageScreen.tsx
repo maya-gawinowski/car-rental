@@ -1,11 +1,11 @@
-import {Image, ImageBackground, Platform, StyleSheet, Text, View} from "react-native";
+import {Image, ImageBackground, StyleSheet, Text, View} from "react-native";
 import {RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import {goLessColors} from "../welcome-screen/colors";
 import {AppButton} from "../components/AppButton";
 import {RootStackParamList} from "../RootStackParamList";
+import {RestClient} from "../RestClient";
 
 const background = require('../icons/background-or.png');
 
@@ -32,13 +32,12 @@ const CarPageScreen: React.FC<Props> = ({route, navigation}) => {
   const [car, setCar] = useState<carItem>({} as carItem)
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();
+  const restClient = RestClient.getInstance();
 
   useEffect(() => {
-    const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
-    const url = `http://${host}:3000/cars/${carId}`
-    axios.get(url)
+    restClient.getCar(carId)
       .then(response => {
-        setCar(response.data);
+        setCar(response);
       })
       .catch(error => {
         console.error(`Error fetching car ${carId}`, error);
