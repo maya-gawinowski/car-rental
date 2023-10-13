@@ -43,6 +43,11 @@ export class RestClient {
     const response = await axios.get(url);
     return response.data;
   }
+  public async getReservationsByUser(userId: string): Promise<Reservation[]> {
+    const url = `http://${this.host}:3000/reservations`;
+    const response = await axios.get(url, { params: { userId } });
+    return response.data;
+  }
 
   public async postReservation(
     carId: string,
