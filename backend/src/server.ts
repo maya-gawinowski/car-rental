@@ -11,6 +11,8 @@ const locations: Location[] = [Odense, Aarhus, Copenhagen, Roskilde];
 const reservations: Reservation[] = [];
 // default logging
 app.use(morgan());
+// json body parser
+app.use(express.json());
 
 app.get('/cars', (req: Request, res: Response) => {
   let searchResult = cars;
@@ -52,11 +54,11 @@ app.get('/reservations', (req: Request, res: Response) => {
 });
 
 app.post('/reservations', (req: Request, res: Response) => {
-  const newReservation = req.body;
+  const reservation = req.body;
   // real application should be uuid
-  newReservation.id = reservations.length + 1;
-  reservations.push(newReservation);
-  res.status(201).json(newReservation);
+  reservation.id = (reservations.length + 1).toString();
+  reservations.push(reservation);
+  res.status(201).json(reservation);
 });
 
 app.listen(PORT, () => {
