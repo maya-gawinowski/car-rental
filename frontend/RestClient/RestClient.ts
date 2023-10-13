@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import axios from 'axios';
-import { Location, Car } from '../../backend/dataModel';
+import { Location, Car, Reservation } from '../../backend/dataModel';
 
 export interface CarCriteria {
   locationName?: string;
@@ -34,6 +34,23 @@ export class RestClient {
 
   public async getLocations(): Promise<Location[]> {
     const url = `http://${this.host}:3000/locations`;
+    const response = await axios.get(url);
+    return response.data;
+  }
+
+  public async getReservations(): Promise<Reservation[]> {
+    const url = `http://${this.host}:3000/reservations`;
+    const response = await axios.get(url);
+    return response.data;
+  }
+
+  public async postReservation(
+    carId: string,
+    userId: string,
+    start: Date,
+    end: Date
+  ): Promise<void> {
+    const url = `http://${this.host}:3000/reservations`;
     const response = await axios.get(url);
     return response.data;
   }
