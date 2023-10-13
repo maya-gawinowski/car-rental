@@ -1,18 +1,29 @@
-import React, {useEffect, useState} from 'react'
-import {ImageBackground, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native'
-import {RouteProp} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import {
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import CarCard from './components/CarCard';
 import CustomHeader from './components/CarDisplayerHeader';
-import {RootStackParamList} from "../RootStackParamList";
-import {CarItem} from "../model";
-import {RestClient} from "../RestClient";
+import { RootStackParamList } from '../RootStackParamList';
+import { Car } from '../../backend/dataModel';
+import { RestClient } from '../RestClient/RestClient';
 
 const background = require('../icons/background-or.png');
 
-type CarsListScreenRouteProp = RouteProp<RootStackParamList, 'CarDisplayScreen'>;
-type CarsListScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CarDisplayScreen'>;
-
+type CarsListScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'CarDisplayScreen'
+>;
+type CarsListScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CarDisplayScreen'
+>;
 
 type Props = {
   route: CarsListScreenRouteProp;
@@ -20,8 +31,14 @@ type Props = {
 };
 
 const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { selectedPlace, departureDate, returnDate, selectedSeatsNumber, locations } = route.params;
-  const [cars, setCars] = useState<CarItem[]>([]);
+  const {
+    selectedPlace,
+    departureDate,
+    returnDate,
+    selectedSeatsNumber,
+    locations,
+  } = route.params;
+  const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();
@@ -35,40 +52,51 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    restClient.searchCars({locationName: selectedPlace, seats: selectedSeatsNumber})
+    restClient
+      .searchCars({ locationName: selectedPlace, seats: selectedSeatsNumber })
       .then(response => {
         setCars(response);
         setLoading(false);
       })
       .catch(error => {
-        console.error("Error fetching cars:", error);
+        console.error('Error fetching cars:', error);
         setLoading(false);
       });
   }, [selectedPlace]);
 
   return (
     <View style={styles.container}>
-    <ImageBackground source={background} resizeMode={"cover"} style={styles.image}>
-    <CustomHeader 
+      <ImageBackground
+        source={background}
+        resizeMode={'cover'}
+        style={styles.image}
+      >
+        <CustomHeader
           navigation={navigation}
-          title={selectedPlace} 
-          subtitle={`${formattedDepartureDate} - ${formattedReturnDate}`} 
+          title={selectedPlace}
+          subtitle={`${formattedDepartureDate} - ${formattedReturnDate}`}
         />
-    <SafeAreaView>
-      <ScrollView>
-        {cars.map((car, index) => (
-          <CarCard key={index} car={car} onPress={() => navigation.navigate('CarPageScreen', {
-            carId: car.id,
-            departureDate: departureDate,
-            returnDate: returnDate
-          })} />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
-    </ImageBackground>
+        <SafeAreaView>
+          <ScrollView>
+            {cars.map((car, index) => (
+              <CarCard
+                key={index}
+                car={car}
+                onPress={() =>
+                  navigation.navigate('CarPageScreen', {
+                    carId: car.id,
+                    departureDate: departureDate,
+                    returnDate: returnDate,
+                  })
+                }
+              />
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
