@@ -26,7 +26,7 @@ const dummyReservation2: Reservation = {
 };
 const reservations: Reservation[] = [dummyReservation1, dummyReservation2];
 // default logging
-app.use(morgan());
+app.use(morgan('combined'));
 // json body parser
 app.use(express.json());
 
