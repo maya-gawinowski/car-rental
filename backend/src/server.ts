@@ -47,6 +47,18 @@ app.get('/cars/:carId', (req: Request, res: Response) => {
   }
 });
 
+app.get('/reservations', (req: Request, res: Response) => {
+  res.json(reservations);
+});
+
+app.post('/reservations', (req: Request, res: Response) => {
+  const newReservation = req.body;
+  // real application should be uuid
+  newReservation.id = reservations.length + 1;
+  reservations.push(newReservation);
+  res.status(201).json(newReservation);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
