@@ -6,6 +6,7 @@ import { goLessColors } from '../welcome-screen/colors';
 import { AppButton } from '../components/AppButton';
 import { RootStackParamList } from '../RootStackParamList';
 import { RestClient } from '../RestClient/RestClient';
+import { Car } from '../../backend/dataModel';
 
 const background = require('../icons/background-or.png');
 
@@ -19,20 +20,9 @@ type Props = {
   navigation: CarPageScreenNavigationProp;
 };
 
-type carItem = {
-  id: string;
-  brand: string;
-  model: string;
-  pricePerDay: number;
-  numberOfSeats: number;
-  isAutomatic: boolean;
-  isElectric: boolean;
-  picture: string;
-};
-
 const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
   const { carId, departureDate, returnDate } = route.params;
-  const [car, setCar] = useState<carItem>({} as carItem);
+  const [car, setCar] = useState<Car>({} as Car);
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();
   const restClient = RestClient.getInstance();

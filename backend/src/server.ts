@@ -8,9 +8,27 @@ const app: Express = express();
 const PORT: number = 3000;
 
 const locations: Location[] = [Odense, Aarhus, Copenhagen, Roskilde];
-const reservations: Reservation[] = [];
+const dummyReservation1: Reservation = {
+  id: '1',
+  start: new Date('2023-10-15'),
+  end: new Date('2023-10-20'),
+  carId: '123',
+  locationId: '123',
+  userId: '123',
+};
+const dummyReservation2: Reservation = {
+  id: '2',
+  start: new Date('2023-10-14'),
+  end: new Date('2023-10-21'),
+  carId: '124',
+  locationId: '121',
+  userId: '177',
+};
+const reservations: Reservation[] = [dummyReservation1, dummyReservation2];
 // default logging
-app.use(morgan());
+app.use(morgan('combined'));
+// json body parser
+app.use(express.json());
 
 app.get('/cars', (req: Request, res: Response) => {
   let searchResult = cars;
@@ -48,15 +66,22 @@ app.get('/cars/:carId', (req: Request, res: Response) => {
 });
 
 app.get('/reservations', (req: Request, res: Response) => {
-  res.json(reservations);
+  const userId = req.query.userId;
+  let result = reservations;
+  if (userId != null) {
+    result = reservations.filter(
+      (item: Reservation) => item.userId == userId.toString()
+    );
+  }
+  res.json(result);
 });
 
 app.post('/reservations', (req: Request, res: Response) => {
-  const newReservation = req.body;
+  const reservation = req.body;
   // real application should be uuid
-  newReservation.id = reservations.length + 1;
-  reservations.push(newReservation);
-  res.status(201).json(newReservation);
+  reservation.id = (reservations.length + 1).toString();
+  reservations.push(reservation);
+  res.status(201).json(reservation);
 });
 
 app.listen(PORT, () => {

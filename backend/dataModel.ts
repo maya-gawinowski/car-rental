@@ -20,5 +20,5 @@ export interface Reservation {
   end: Date;
   carId: string;
   locationId: string;
-  usedId: string;
+  userId: string;
 }
