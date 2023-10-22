@@ -2,6 +2,7 @@ export type RootStackParamList = {
   WelcomeScreen: undefined
   DuHastScreen: undefined
   DuHastMichScreen: undefined
+  MyReservationScreen: undefined
   CarDisplayScreen: {
     selectedPlace: string;
     departureDate: Date;

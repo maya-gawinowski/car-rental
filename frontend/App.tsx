@@ -7,6 +7,7 @@ import CarDisplayScreen from './car-display/CarDisplayScreen'
 import DuHastScreen from './welcome-screen/DuHastScreen'
 import WelcomeScreen from './welcome-screen/WelcomeScreen'
 import CarPageScreen from "./car-page/CarPageScreen";
+import MyReservationScreen from "./myreservation-screen/MyReservationScreen"
 import {RootStackParamList} from "./RootStackParamList";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -20,13 +21,24 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+      <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
           options={{
             headerShown: false,
           }}
         />
+        <Stack.Screen name="MyReservationScreen" component={MyReservationScreen} 
+        options={{
+          title: "My account",
+          headerStyle: {
+            backgroundColor: '#22668D',
+          },
+          headerTitleStyle: {
+            color: 'white', // This sets the header text color
+        },
+        headerTintColor: 'white',
+        }}/>
         <Stack.Screen name="DuHastScreen" component={DuHastScreen} />
         <Stack.Screen name="DuHastMichScreen" component={DuHastMichScreen} />
         <Stack.Screen name="CarDisplayScreen" component={CarDisplayScreen}

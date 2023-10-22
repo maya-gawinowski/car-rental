@@ -1,53 +1,61 @@
-import React, {useState, useEffect} from 'react';
-import {Image, ImageBackground, StyleSheet, Text, View, Platform} from 'react-native';
-import {SelectList} from 'react-native-dropdown-select-list';
-import {NavigationProp} from '../App';
-import {AppSingleDatePicker} from "./components/AppSingleDatePicker";
-import {AppButton} from "../components/AppButton";
-import {goLessColors} from "./colors";
-import {AppRoundButton} from "./components/AppRoundButton";
+import React, { useState, useEffect } from 'react';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  Button
+} from 'react-native';
+import { SelectList } from 'react-native-dropdown-select-list';
+import { NavigationProp } from '../App';
+import { AppSingleDatePicker } from "./components/AppSingleDatePicker";
+import { AppButton } from "../components/AppButton";
+import { goLessColors } from "./colors";
+import { AppRoundButton } from "./components/AppRoundButton";
 import axios from "axios";
 
 const logo = require('../icons/car-logo.png');
 const background = require('../icons/background-or.png');
+
 interface DuProps {
-  navigation: NavigationProp
+  navigation: NavigationProp;
 }
 
-const WelcomeScreen = ({navigation}: DuProps) => {
-  type location = {
-    id: number
-    name: string
-  }
-  const [selectedPlace, setSelectedPlace] = useState("");
-  const [departureDate, setDepartureDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
-  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4);
-  const [locations, setLocations] = useState<location[]>([])
+interface Location {
+  id: number;
+  name: string;
+}
+
+const WelcomeScreen: React.FC<DuProps> = ({ navigation }) => {
+  const [selectedPlace, setSelectedPlace] = useState<string>("");
+  const [departureDate, setDepartureDate] = useState<Date>(new Date());
+  const [returnDate, setReturnDate] = useState<Date>(new Date());
+  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState<number>(4);
+  const [locations, setLocations] = useState<Location[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
-        const url = `http://${host}:3000/locations`
-        const response = await axios.get(url)
-        setLocations(response.data)
+        const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
+        const url = `http://${host}:3000/locations`;
+        const response = await axios.get(url);
+        setLocations(response.data);
       } catch (error) {
-        console.error('There was an error fetching data', error)
+        console.error('There was an error fetching data', error);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
-    <View
-      style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground source={background} resizeMode={"cover"} style={styles.image}>
-        <View
-          style={styles.mainView}>
+        <View style={styles.mainView}>
           <View style={styles.logoView}>
-            <Image source={logo} style={styles.logoImage}/>
+            <Image source={logo} style={styles.logoImage} />
           </View>
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Renting place</Text>
@@ -69,9 +77,9 @@ const WelcomeScreen = ({navigation}: DuProps) => {
             boxStyles={{
               borderColor: goLessColors.darkBlue
             }}
-            setSelected={(val: React.SetStateAction<string>) => setSelectedPlace(val)}
+            setSelected={(val: string) => setSelectedPlace(val)}
             data={locations.map((location) => {
-              return {label: location.name, value: location.name}
+              return { label: location.name, value: location.name };
             })}
             save='value'
             placeholder='Choose your city'
@@ -79,11 +87,11 @@ const WelcomeScreen = ({navigation}: DuProps) => {
           <View style={styles.datePickerView}>
             <View style={styles.singleDatePickerView}>
               <Text style={styles.titleText}>Departure date</Text>
-              <AppSingleDatePicker selectedDate={departureDate} setSelectedDate={setDepartureDate}/>
+              <AppSingleDatePicker selectedDate={departureDate} setSelectedDate={setDepartureDate} />
             </View>
             <View style={styles.singleDatePickerView}>
               <Text style={styles.titleText}>Return date</Text>
-              <AppSingleDatePicker selectedDate={returnDate} setSelectedDate={setReturnDate}/>
+              <AppSingleDatePicker selectedDate={returnDate} setSelectedDate={setReturnDate} />
             </View>
           </View>
           <View style={styles.seatNumberTextView}>
@@ -91,22 +99,27 @@ const WelcomeScreen = ({navigation}: DuProps) => {
           </View>
           <View style={styles.seatNumberView}>
             <AppRoundButton onPress={() => {
-              setSelectedSeatsNumber(selectedSeatsNumber - 1)
-            }} title={'-'}/>
+              setSelectedSeatsNumber(selectedSeatsNumber - 1);
+            }} title={'-'} />
             <Text style={styles.numberText}>{selectedSeatsNumber}</Text>
             <AppRoundButton onPress={() => {
-              setSelectedSeatsNumber(selectedSeatsNumber + 1)
-            }} title={'+'}/>
+              setSelectedSeatsNumber(selectedSeatsNumber + 1);
+            }} title={'+'} />
           </View>
           <View style={styles.buttonView}>
             <AppButton title="Find a car" onPress={() => navigation.navigate('CarDisplayScreen', {
-              selectedPlace: selectedPlace,
-              departureDate: departureDate,
-              returnDate: returnDate,
-              selectedSeatsNumber: selectedSeatsNumber,
+              selectedPlace,
+              departureDate,
+              returnDate,
+              selectedSeatsNumber,
               locations: locations.map((location) => location.name)
-            })}/>
+            })} />
           </View>
+          <Button
+            title="Account"
+            onPress={() => navigation.navigate('MyReservationScreen')}
+            //style={styles.accountButton} 
+          />
         </View>
       </ImageBackground>
     </View>
@@ -175,6 +188,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  accountButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1000
+  },
 });
 
-export default WelcomeScreen
+export default WelcomeScreen;
