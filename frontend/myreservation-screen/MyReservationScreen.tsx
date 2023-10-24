@@ -118,16 +118,6 @@ const pastReservations: Reservation[] = [
 ]
 
 const MyReservationScreen = ({navigation}: DuProps) => {
-  type location = {
-    id: number
-    name: string
-  }
-  const [selectedPlace, setSelectedPlace] = useState("");
-  const [departureDate, setDepartureDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
-  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4);
-  const [locations, setLocations] = useState<location[]>([])
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,7 +125,7 @@ const MyReservationScreen = ({navigation}: DuProps) => {
         const host = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2'
         const url = `http://${host}:3000/locations`
         const response = await axios.get(url)
-        setLocations(response.data)
+        //setLocations(response.data)
       } catch (error) {
         console.error('There was an error fetching data', error)
       }
