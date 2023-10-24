@@ -73,6 +73,49 @@ const userInfo = {
   email: "johndoe@example.com"
 };
 
+export interface Reservation {
+  id: string;
+  start: Date;
+  end: Date;
+  carId: string;
+  locationId: string;
+  userId: string;
+}
+
+const pastReservations: Reservation[] = [
+  {
+      "id": "1",
+      "start": new Date("2016-01-04 10:34:23"),
+      "end": new Date("2016-01-04 10:34:23"),
+      "carId": "5",
+      "locationId": "1",
+      "userId": "2",
+    },
+    {
+      "id": "1",
+      "start": new Date("2016-01-04 10:34:23"),
+      "end": new Date("2016-01-04 10:34:23"),
+      "carId": "5",
+      "locationId": "1",
+      "userId": "2",
+    },
+    {
+      "id": "1",
+      "start": new Date("2016-01-04 10:34:23"),
+      "end": new Date("2016-01-04 10:34:23"),
+      "carId": "5",
+      "locationId": "1",
+      "userId": "2",
+    },
+    {
+      "id": "1",
+      "start": new Date("2016-01-04 10:34:23"),
+      "end": new Date("2016-01-04 10:34:23"),
+      "carId": "5",
+      "locationId": "1",
+      "userId": "2",
+    },
+]
 
 const MyReservationScreen = ({navigation}: DuProps) => {
   type location = {
@@ -118,24 +161,16 @@ const MyReservationScreen = ({navigation}: DuProps) => {
             <SafeAreaView style={styles.mainView}>
                 <Text style={styles.titleText}>Upcoming reservations</Text>
                 <ScrollView>
-                    {cars.map((car, index) => (
-                    <ReservationCard key={index} car={car} onPress={() => navigation.navigate('CarPageScreen', {
-                        carId: car.id,
-                        departureDate: departureDate,
-                        returnDate: returnDate
-                    })} />
+                    {pastReservations.map((reservation, index) => (
+                    <ReservationCard key={index} reservation={reservation}/>
                     ))}
                 </ScrollView>
             </SafeAreaView>
             <SafeAreaView style={styles.mainView}>
                 <Text style={styles.titleText}>Past reservations</Text>
                 <ScrollView>
-                    {cars.map((car, index) => (
-                    <ReservationCard key={index} car={car} onPress={() => navigation.navigate('CarPageScreen', {
-                        carId: car.id,
-                        departureDate: departureDate,
-                        returnDate: returnDate
-                    })} />
+                    {pastReservations.map((reservation, index) => (
+                    <ReservationCard key={index} reservation={reservation} />
                     ))}
                 </ScrollView>
             </SafeAreaView>
