@@ -71,12 +71,14 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
         resizeMode={'cover'}
         style={styles.image}
       >
-        <CustomHeader
-          navigation={navigation}
-          title={selectedPlace}
-          subtitle={`${formattedDepartureDate} - ${formattedReturnDate}`}
-        />
-        <SafeAreaView>
+        <View style={styles.header}>
+          <CustomHeader
+            navigation={navigation}
+            title={selectedPlace}
+            subtitle={`${formattedDepartureDate} - ${formattedReturnDate}`}
+          />
+        </View>
+        <SafeAreaView style={styles.content}>
           <ScrollView>
             {cars.map((car, index) => (
               <CarCard
@@ -85,6 +87,8 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate('CarPageScreen', {
                     carId: car.id,
+                    selectedPlace: selectedPlace,
+                    selectedSeatsNumber: selectedSeatsNumber,
                     departureDate: departureDate,
                     returnDate: returnDate,
                   })
@@ -102,6 +106,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+  },
+  header: {
+    flex: 1,  
+  },
+  content: {
+    flex: 7,  
   },
   carItem: {
     padding: 10,
