@@ -1,5 +1,4 @@
-import { Image, ImageBackground, StyleSheet, Text, View, Platform, Button} from 'react-native';
-import axios from "axios";
+import { Image, ImageBackground, StyleSheet, Text, View, Button} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { NavigationProp } from '../App';
@@ -40,9 +39,13 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
         style={styles.image}
       >
         <View style={styles.mainView}>
+          <View style={styles.accountButton}>
+            <Button title="Account" color="white" onPress={() => navigation.navigate('MyReservationScreen')}/>
+          </View>
           <View style={styles.logoView}>
             <Image source={logo} style={styles.logoImage} />
           </View>
+          
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Renting place</Text>
           </View>
@@ -120,11 +123,7 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
               }
             />
           </View>
-          <Button
-            title="Account"
-            onPress={() => navigation.navigate('MyReservationScreen')}
-            //style={styles.accountButton} 
-          />
+          
         </View>
       </ImageBackground>
     </View>
@@ -195,10 +194,17 @@ const styles = StyleSheet.create({
   },
   accountButton: {
     position: 'absolute',
-    top: 10,
+    top: 50,
     right: 10,
-    zIndex: 1000
+    zIndex: 1000,
+    backgroundColor:'#22668D',
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 5,
   },
+  buttonText: {
+    color: 'white'
+  }
 });
 
 export default WelcomeScreen;
