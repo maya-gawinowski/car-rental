@@ -1,25 +1,28 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View, Button} from 'react-native';
-import { format } from "date-fns";
+import { StyleSheet, Text, View} from 'react-native';
 
 interface ReservationCardProps {
     reservation: {
       id: string;
-      start: Date;
-      end: Date;
+      start: Date | null;
+      end: Date | null;
       carId: string;
       locationId: string;
       userId: string;
     };
 }
 const ReservationCard = ({ reservation }: ReservationCardProps) => {
-  var formattedStartDate = format(reservation.start, "dd/mm/yyyy");
-  var formattedEndDate = format(reservation.end, "dd/mm/yyyy");
+  const startDate = typeof reservation.start === 'string' 
+  ? new Date(reservation.start) 
+  : reservation.start;
+  const endDate = typeof reservation.end === 'string' 
+  ? new Date(reservation.end) 
+  : reservation.end;
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.modelText}>{formattedStartDate} | {formattedEndDate}</Text>
+        <Text style={styles.modelText}>{startDate?.toDateString()} | {endDate?.toDateString()}</Text>
         <View style={styles.contentContent}>
           <Text style={styles.contentText}>Car : {reservation.carId}</Text>
           <Text style={styles.contentText}>Location : {reservation.locationId}</Text>
@@ -31,9 +34,9 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
 
 const styles = StyleSheet.create({
 container: {
-    alignItems: 'center',  // Centers children horizontally
-    flex: 1,  // Takes the full height available
-    justifyContent: 'flex-start',  // Stacks children from the top
+    alignItems: 'center',  
+    flex: 1,  
+    justifyContent: 'flex-start',  
   },
 card: {
     borderColor: '#ccc',
@@ -75,38 +78,11 @@ contentText: {
   top: 5,
   left: 5
   },
-  priceText: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    fontSize: 20,
-    fontWeight: '700', 
-    color: '#FFB631',
-  },
   image: {
     width: 140,  // Increased the width and height
     height: 140,
     borderRadius: 70, // This will make the image circular which can be a nice touch
     marginBottom: 15  // Add some spacing below the image
-  },
-  seatsText: {
-    fontSize: 15, 
-  fontWeight: '700', 
-  color: '#22668D',
-  marginRight: 7
-  },
-  transmissionText: {
-    fontSize: 15, 
-  fontWeight: '700', 
-  color: '#22668D',
-  marginLeft: 7,
-  },
-  bottomLeftInfo: {
-    flexDirection: 'row', // This makes the children lay out horizontally
-    position: 'absolute',
-    bottom: 5,
-    left: 15,
-    alignItems: 'center',
   },
 });
 
