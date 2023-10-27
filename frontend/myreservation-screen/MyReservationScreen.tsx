@@ -3,7 +3,8 @@ import { ImageBackground, StyleSheet, SafeAreaView, ScrollView, Text, View, Butt
 import {NavigationProp} from '../App';
 import ReservationCard from './components/ReservationCard'
 import { RestClient } from '../RestClient/RestClient';
-import { Reservation } from '../../backend/dataModel';
+import IReservation from '../../backend/src/models/IReservation';
+import IUser from '../../backend/src/models/IUser';
 
 const logo = require('../icons/car-logo.png');
 const background = require('../icons/background-or.png');
@@ -20,18 +21,18 @@ const userInfo = {
 const MyReservationScreen = ({navigation}: DuProps) => {
 
   const restClient = RestClient.getInstance();
-  const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
-  const [upcomingReservations, setUpcomingReservations] = useState<Reservation[]>([]);
+  const [pastReservations, setPastReservations] = useState<IReservation[]>([]);
+  const [upcomingReservations, setUpcomingReservations] = useState<IReservation[]>([]);
 
   useEffect(() => {
     restClient
       .getReservationsByUser(userInfo.userId)
       .then(response => {
-        const now = new Date(); // Current date
-        const past: React.SetStateAction<Reservation[]> = [];
-        const upcoming: React.SetStateAction<Reservation[]> = [];
+        const now = new Date();
+        const past: React.SetStateAction<IReservation[]> = [];
+        const upcoming: React.SetStateAction<IReservation[]> = [];
   
-        response.forEach((reservation: Reservation) => {
+        response.forEach((reservation: IReservation) => {
           restClient
             .getCar(reservation.carId)
             .then(response => console.log(response))
