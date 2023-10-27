@@ -13,32 +13,34 @@ interface DuProps {
 
 const userInfo = {
   name: "John Doe",
-  email: "johndoe@example.com"
+  email: "johndoe@example.com",
+  userId: "123"
 };
 
 const MyReservationScreen = ({navigation}: DuProps) => {
 
   const restClient = RestClient.getInstance();
-  const [reservations, setReservations] = useState<Reservation[]>([]); 
   const [pastReservations, setPastReservations] = useState<Reservation[]>([]);
   const [upcomingReservations, setUpcomingReservations] = useState<Reservation[]>([]);
 
   useEffect(() => {
     restClient
-      .getReservationsByUser('123')
+      .getReservationsByUser(userInfo.userId)
       .then(response => {
         const now = new Date(); // Current date
         const past: React.SetStateAction<Reservation[]> = [];
         const upcoming: React.SetStateAction<Reservation[]> = [];
   
         response.forEach((reservation: Reservation) => {
+          restClient
+            .getCar(reservation.carId)
+            .then(response => console.log(response))
           if (new Date(reservation.end) < now) { 
             past.push(reservation);
           } else {
             upcoming.push(reservation);
           }
         });
-  
         setPastReservations(past);
         setUpcomingReservations(upcoming);
       })

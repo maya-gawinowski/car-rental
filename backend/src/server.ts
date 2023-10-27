@@ -12,7 +12,7 @@ const dummyReservation1: Reservation = {
   id: '1',
   start: new Date('2023-10-15'),
   end: new Date('2023-10-20'),
-  carId: '123',
+  carId: '12',
   locationId: '123',
   userId: '123',
 };

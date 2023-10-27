@@ -1,5 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View} from 'react-native';
+import { RestClient } from '../../RestClient/RestClient';
+import { Car } from '../../../backend/dataModel';
+
 
 interface ReservationCardProps {
     reservation: {
@@ -18,14 +21,28 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
   const endDate = typeof reservation.end === 'string' 
   ? new Date(reservation.end) 
   : reservation.end;
+  const restClient = RestClient.getInstance();
+  const [car, setCar] = useState<Car>({} as Car);
+
+  useEffect(() => {
+    restClient
+      .getCar(reservation.carId)
+      .then(response => {
+        setCar(response);
+      })
+      .catch(error => {
+        console.error(`Error fetching car ${reservation.carId}`, error);
+      });
+  }, [reservation.carId]);
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
+      <Image source={{ uri: car.picture }} style={styles.image} />  
         <Text style={styles.modelText}>{startDate?.toDateString()} | {endDate?.toDateString()}</Text>
         <View style={styles.contentContent}>
-          <Text style={styles.contentText}>Car : {reservation.carId}</Text>
-          <Text style={styles.contentText}>Location : {reservation.locationId}</Text>
+          <Text style={styles.contentText}>{car.brand}</Text>
+          <Text style={styles.contentText}>{car.model}</Text>
         </View>
       </View>
     </View>
@@ -48,7 +65,7 @@ card: {
     position: 'relative',
     backgroundColor: '#FFFFFF', 
     width: 360, 
-    height: 100, 
+    height: 206, 
     // Shadow properties mainly for iOS
     shadowColor: '#40000000',
     shadowOffset: { width: 0, height: 4 }, // This assumes the shadow falls below the box (4.dp)
