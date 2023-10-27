@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageBackground, StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ type Props = {
 };
 
 const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { carId, departureDate, returnDate } = route.params;
+  const { carId, departureDate, returnDate, selectedPlace, selectedSeatsNumber } = route.params;
   const [car, setCar] = useState<Car>({} as Car);
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();
@@ -51,6 +51,9 @@ const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
         resizeMode={'cover'}
         style={styles.backgroundImage}
       >
+        <TouchableOpacity style={styles.header} onPress={() => navigation.goBack()}>
+        <Text style={{ fontSize: 30, color: '#22668D' }}>&lt;</Text>
+      </TouchableOpacity>
         <View style={styles.mainView}>
           <Image source={{ uri: car.picture }} style={styles.image} />
           <View style={styles.infoPanel}>
@@ -72,7 +75,15 @@ const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
             </Text>
           </View>
           <View style={styles.buttonPanel}>
-            <AppButton onPress={() => {}} title={'Rent'}></AppButton>
+            <AppButton onPress={() => {navigation.navigate('CarReservationScreen', {
+      carModel: car.model,
+      carId: car.id,
+      departureDate: departureDate,
+      returnDate: returnDate,
+      totalPrice: getTotalPrice(),
+      selectedSeatsNumber: selectedSeatsNumber,
+      selectedPlace: selectedPlace,
+    });}} title={'Rent'}></AppButton>
           </View>
         </View>
       </ImageBackground>
@@ -128,6 +139,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'normal',
     color: goLessColors.darkBlue,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    top: StatusBar.currentHeight, // This accounts for the status bar height
+    left: 0,
+    right: 0,
+    zIndex: 1
+
   },
 });
 

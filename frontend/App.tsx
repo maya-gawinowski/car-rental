@@ -8,6 +8,7 @@ import DuHastScreen from './welcome-screen/DuHastScreen'
 import WelcomeScreen from './welcome-screen/WelcomeScreen'
 import CarPageScreen from "./car-page/CarPageScreen";
 import {RootStackParamList} from "./RootStackParamList";
+import CarReservation from "./car-reservation-page/CarReservationScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -36,8 +37,13 @@ export default function App() {
          />
         <Stack.Screen name="CarPageScreen" component={CarPageScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: "Car details"
+        }}/>
+        <Stack.Screen name="CarReservationScreen" component={CarReservation}
+        options={{
+          headerShown: false,
+          title: "Car reservation"
         }}/>
       </Stack.Navigator>
     </NavigationContainer>
