@@ -26,7 +26,7 @@ const MyReservationScreen = ({navigation}: DuProps) => {
 
   useEffect(() => {
     restClient
-      .getReservationsByUser(userInfo.userId)
+      .getReservationsByUser()
       .then(response => {
         const now = new Date();
         const past: React.SetStateAction<IReservation[]> = [];

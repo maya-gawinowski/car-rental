@@ -44,12 +44,12 @@ export class RestClient {
 
   public async getReservations(): Promise<IReservation[]> {
     const url = `http://${this.host}:3000/reservations`;
-    const response = await axios.get(url);
+    const response = await axios.get(url,{ headers: {Authorization: `Bearer ${this.token}`}});
     return response.data;
   }
-  public async getReservationsByUser(userId: string): Promise<IReservation[]> {
+  public async getReservationsByUser(): Promise<IReservation[]> {
     const url = `http://${this.host}:3000/reservations`;
-    const response = await axios.get(url, { params: { userId } });
+    const response = await axios.get(url, { headers: {Authorization: `Bearer ${this.token}`}});
     return response.data;
   }
 
