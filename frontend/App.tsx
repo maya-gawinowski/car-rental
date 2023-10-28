@@ -9,6 +9,9 @@ import WelcomeScreen from './welcome-screen/WelcomeScreen'
 import CarPageScreen from "./car-page/CarPageScreen";
 import MyReservationScreen from "./myreservation-screen/MyReservationScreen"
 import {RootStackParamList} from "./RootStackParamList";
+import LogInScreen from "./login-page/LoginPageScreen";
+import SignInScreen from "./Signin-page/SignInScreen";
+import Confirmation from "./Confirmation-page/confirmation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -21,6 +24,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Confirmation" component={Confirmation}/>
+      <Stack.Screen name="SignInScreen" component={SignInScreen}/>
+
+      <Stack.Screen name="LogInScreen" component={LogInScreen}/>
       <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
@@ -28,7 +35,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="MyReservationScreen" component={MyReservationScreen} 
+        <Stack.Screen name="MyReservationScreen" component={MyReservationScreen}
         options={{
           title: "My account",
           headerStyle: {
