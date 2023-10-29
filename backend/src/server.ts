@@ -1,14 +1,12 @@
-import express, { Express, Request, Response } from 'express'
-import { cars } from '../data/cars'
-import { Odense, Aarhus, Copenhagen, Roskilde } from '../data/locations'
-import IReservation from './models/IReservation'
-import ILocation from './models/ILocation'
+import express, { Request, Response } from 'express'
 import morgan from 'morgan'
-import User from './users/User'
+import { cars } from '../data/cars'
+import Database from './database/Database'
 import ErrorMessages from './models/ErrorMessages'
+import IReservation from './models/IReservation'
 import { authenticate } from './user-authentication/Authenticate'
 import passportConfig from './user-authentication/Passport'
-import Database from './database/Database'
+import User from './users/User'
 
 const app = express()
 const PORT = 3000
@@ -80,11 +78,22 @@ app.get('/cars/:carId', (req: Request, res: Response) => {
   }
 })
 
+interface IUser {
+  id: string
+  name: string
+  email: string
+  password: string
+  reservations: IReservation[]
+}
+
+
+
 app.get('/reservations', authenticate, (req: Request, res: Response) => {
-  const user = new User(req.user!)
+  const user = req.user! as any;
   const reservations = user.getReservations()
   res.json({ reservations })
 })
+
 
 app.post('/reservations', authenticate, (req: Request, res: Response) => {
   const reservationData = req.body
@@ -98,7 +107,7 @@ app.post('/reservations', authenticate, (req: Request, res: Response) => {
   }
   const reservation = Database.instance.createNew('reservations', {
     ...reservationData,
-    userId: req.user!.id,
+    userId: (req.user as IUser).id,
   })
   res.status(201).json(reservation)
 })

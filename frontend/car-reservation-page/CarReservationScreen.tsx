@@ -24,7 +24,7 @@ const CarReservationScreen: React.FC<Props> = ({ route, navigation }) => {
   const restClient = RestClient.getInstance();
   const handleValidate = async  () => {
     await restClient
-      .postReservation(carId, '', selectedPlace, departureDate, returnDate)
+      .postReservation(carId, selectedPlace, departureDate, returnDate)
       .then(response => {
         console.log('Reservation done', response);
       })
