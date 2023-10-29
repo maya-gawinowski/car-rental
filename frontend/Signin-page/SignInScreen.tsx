@@ -1,22 +1,28 @@
-import { Image, ImageBackground, StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { SelectList } from 'react-native-dropdown-select-list';
-import { AppSingleDatePicker } from './components/AppSingleDatePicker';
-import { AppButton } from '../components/AppButton';
-import { goLessColors } from './colors';
-import { AppRoundButton } from './components/AppRoundButton';
-import { RestClient } from '../RestClient/RestClient';
+import React, { useState } from 'react'
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
+import { AppButton } from '../components/AppButton'
+import { goLessColors } from './colors'
+import { RestClient } from '../RestClient/RestClient'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '../RootStackParamList'
 
-const logo = require('../icons/car-logo.png');
-const background = require('../icons/background-or.png');
-
+const logo = require('../icons/car-logo.png')
+const background = require('../icons/background-or.png')
 
 const SignInScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [confirmEmail, setConfirmEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
   return (
     <View style={styles.container}>
@@ -26,14 +32,11 @@ const SignInScreen = () => {
         style={styles.image}
       >
         <View style={styles.mainView}>
-
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Sign In</Text>
             <Image source={logo} style={styles.logoImage} />
           </View>
-          <View style={styles.logoView}>
-
-          </View>
+          <View style={styles.logoView}></View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Name</Text>
@@ -88,16 +91,27 @@ const SignInScreen = () => {
           </View>
 
           <View style={styles.buttonView}>
-            <AppButton title="Sign In" />
+            <AppButton
+              title="Sign In"
+              onPress={() =>
+                RestClient.getInstance()
+                  .createUser(name, email, password)
+                  .then(() => navigation.navigate('LogInScreen'))
+                  .catch((error) => alert(error))
+              }
+            />
           </View>
           <View style={styles.buttonView}>
-            <AppButton title="Have an Account?"  />
+            <AppButton
+              title="Have an Account?"
+              onPress={() => navigation.navigate('LogInScreen')}
+            />
           </View>
         </View>
       </ImageBackground>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -113,12 +127,10 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   logoImage: {
     height: 50,
     width: 50,
-
   },
   rentingPlaceTextView: {
     flex: 0.5,
@@ -131,7 +143,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: 'bold',
     fontSize: 17,
-    padding:0,
+    padding: 0,
     margin: 0,
     color: goLessColors.darkBlue,
   },
@@ -155,6 +167,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-});
+})
 
-export default SignInScreen;
+export default SignInScreen

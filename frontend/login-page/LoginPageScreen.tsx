@@ -1,18 +1,25 @@
-import { Image, ImageBackground, StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { SelectList } from 'react-native-dropdown-select-list';
-import { AppSingleDatePicker } from './components/AppSingleDatePicker';
-import { AppButton } from '../components/AppButton';
-import { goLessColors } from './colors';
-import { AppRoundButton } from './components/AppRoundButton';
-import { RestClient } from '../RestClient/RestClient';
+import React, { useState } from 'react'
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
+import { AppButton } from '../components/AppButton'
+import { goLessColors } from './colors'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '../RootStackParamList'
+import { RestClient } from '../RestClient/RestClient'
 
-const logo = require('../icons/car-logo.png');
-const background = require('../icons/background-or.png');
+const logo = require('../icons/car-logo.png')
+const background = require('../icons/background-or.png')
 
 const LogInScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
   return (
     <View style={styles.container}>
@@ -22,17 +29,14 @@ const LogInScreen = () => {
         style={styles.image}
       >
         <View style={styles.mainView}>
-
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Log in </Text>
-
           </View>
           <View style={styles.logoView}>
             <Image source={logo} style={styles.logoImage} />
           </View>
 
           <View style={styles.inputContainer}>
-
             <Text style={styles.label}>Email Address</Text>
             <TextInput
               style={styles.input}
@@ -54,16 +58,27 @@ const LogInScreen = () => {
           </View>
 
           <View style={styles.buttonView}>
-            <AppButton title="Connect" />
+            <AppButton
+              title="Connect"
+              onPress={() =>
+                RestClient.getInstance()
+                  .login(email, password)
+                  .then(() => navigation.navigate('WelcomeScreen'))
+                  .catch((error) => alert("Unauthorised"))
+              }
+            />
           </View>
           <View style={styles.buttonView}>
-            <AppButton title="Create account" />
+            <AppButton
+              title="Create account"
+              onPress={() => navigation.navigate('SignInScreen')}
+            />
           </View>
         </View>
       </ImageBackground>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -98,13 +113,13 @@ const styles = StyleSheet.create({
     margin: 3,
     color: goLessColors.darkBlue,
   },
- input: {
-   borderBottomWidth: 2, // Add a border line at the bottom
-   borderColor: goLessColors.darkBlue, // Set the border line color
-   padding: 5,
-   fontSize: 16,
-   color: goLessColors.darkBlue, // Set input text color
- },
+  input: {
+    borderBottomWidth: 2, // Add a border line at the bottom
+    borderColor: goLessColors.darkBlue, // Set the border line color
+    padding: 5,
+    fontSize: 16,
+    color: goLessColors.darkBlue, // Set input text color
+  },
   buttonView: {
     flex: 1,
     justifyContent: 'center',
@@ -128,6 +143,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     borderRadius: 5,
   },
-});
+})
 
-export default LogInScreen;
+export default LogInScreen

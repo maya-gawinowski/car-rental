@@ -1,17 +1,23 @@
-import { Image, ImageBackground, StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { AppButton } from '../components/AppButton';
-import { goLessColors } from './colors';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+} from 'react-native'
+import React, { useState } from 'react'
+import { AppButton } from '../components/AppButton'
+import { goLessColors } from './colors'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '../RootStackParamList'
 
-const logo = require('../icons/car-logo.png');
-const background = require('../icons/background-or.png');
+const logo = require('../icons/car-logo.png')
+const background = require('../icons/background-or.png')
 
-const Confirmation = ({ userEmail }) => {
-
-  if (!userEmail) {
-    userEmail = 'user@example.com';
-  }
-
+const Confirmation = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -26,19 +32,23 @@ const Confirmation = ({ userEmail }) => {
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Confirmation</Text>
             <Text style={styles.confirmationText}>
-              Thank you for renting with us. A confirmation email has been sent at {userEmail}.
-              You can also consult your reservation in your account page.
+              Thank you for renting with us. A confirmation email has been sent
+              to your email. You can also consult your reservation in your
+              account page.
             </Text>
           </View>
 
           <View style={styles.buttonView}>
-            <AppButton title="My Account" />
+            <AppButton
+              title="My Account"
+              onPress={() => navigation.navigate('MyReservationScreen')}
+            />
           </View>
         </View>
       </ImageBackground>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -109,6 +119,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     borderRadius: 5,
   },
-});
+})
 
-export default Confirmation;
+export default Confirmation

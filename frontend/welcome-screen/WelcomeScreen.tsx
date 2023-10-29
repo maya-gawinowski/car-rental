@@ -1,35 +1,42 @@
-import { Image, ImageBackground, StyleSheet, Text, View, Button} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { SelectList } from 'react-native-dropdown-select-list';
-import { NavigationProp } from '../App';
-import { AppSingleDatePicker } from './components/AppSingleDatePicker';
-import { AppButton } from '../components/AppButton';
-import { goLessColors } from './colors';
-import { AppRoundButton } from './components/AppRoundButton';
-import { Location } from '../../backend/dataModel';
-import { RestClient } from '../RestClient/RestClient';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { SelectList } from 'react-native-dropdown-select-list'
+import { NavigationProp } from '../App'
+import { AppSingleDatePicker } from './components/AppSingleDatePicker'
+import { AppButton } from '../components/AppButton'
+import { goLessColors } from './colors'
+import { AppRoundButton } from './components/AppRoundButton'
+import { RestClient } from '../RestClient/RestClient'
+import ILocation from '../../backend/src/models/ILocation'
 
-const logo = require('../icons/car-logo.png');
-const background = require('../icons/background-or.png');
+const logo = require('../icons/car-logo.png')
+const background = require('../icons/background-or.png')
 
 interface DuProps {
-  navigation: NavigationProp;
+  navigation: NavigationProp
 }
 
 const WelcomeScreen = ({ navigation }: DuProps) => {
-  const [selectedPlace, setSelectedPlace] = useState('');
-  const [departureDate, setDepartureDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState(new Date());
-  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4);
-  const [locations, setLocations] = useState<Location[]>([]);
-  const restClient = RestClient.getInstance();
+  const [selectedPlace, setSelectedPlace] = useState('')
+  const [departureDate, setDepartureDate] = useState(new Date())
+  const [returnDate, setReturnDate] = useState(new Date())
+  const [selectedSeatsNumber, setSelectedSeatsNumber] = useState(4)
+  const [locations, setLocations] = useState<ILocation[]>([])
+  const restClient = RestClient.getInstance()
 
   useEffect(() => {
     restClient
       .getLocations()
-      .then(response => setLocations(response))
-      .catch(error => console.error('Error fetching locations', error));
-  }, []);
+      .then((response) => setLocations(response))
+      .catch((error) => console.error('Error fetching locations', error))
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -40,12 +47,16 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
       >
         <View style={styles.mainView}>
           <View style={styles.accountButton}>
-            <Button title="Account" color="white" onPress={() => navigation.navigate('MyReservationScreen')}/>
+            <Button
+              title="Account"
+              color="white"
+              onPress={() => navigation.navigate('MyReservationScreen')}
+            />
           </View>
           <View style={styles.logoView}>
             <Image source={logo} style={styles.logoImage} />
           </View>
-          
+
           <View style={styles.rentingPlaceTextView}>
             <Text style={styles.titleText}>Renting place</Text>
           </View>
@@ -69,8 +80,8 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
             setSelected={(val: React.SetStateAction<string>) =>
               setSelectedPlace(val)
             }
-            data={locations.map(location => {
-              return { label: location.name, value: location.name };
+            data={locations.map((location) => {
+              return { label: location.name, value: location.name }
             })}
             save="value"
             placeholder="Choose your city"
@@ -97,14 +108,14 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
           <View style={styles.seatNumberView}>
             <AppRoundButton
               onPress={() => {
-                setSelectedSeatsNumber(selectedSeatsNumber - 1);
+                setSelectedSeatsNumber(selectedSeatsNumber - 1)
               }}
               title={'-'}
             />
             <Text style={styles.numberText}>{selectedSeatsNumber}</Text>
             <AppRoundButton
               onPress={() => {
-                setSelectedSeatsNumber(selectedSeatsNumber + 1);
+                setSelectedSeatsNumber(selectedSeatsNumber + 1)
               }}
               title={'+'}
             />
@@ -118,17 +129,16 @@ const WelcomeScreen = ({ navigation }: DuProps) => {
                   departureDate: departureDate,
                   returnDate: returnDate,
                   selectedSeatsNumber: selectedSeatsNumber,
-                  locations: locations.map(location => location.name),
+                  locations: locations.map((location) => location.name),
                 })
               }
             />
           </View>
-          
         </View>
       </ImageBackground>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -197,14 +207,14 @@ const styles = StyleSheet.create({
     top: 50,
     right: 10,
     zIndex: 1000,
-    backgroundColor:'#22668D',
+    backgroundColor: '#22668D',
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 5,
   },
   buttonText: {
-    color: 'white'
-  }
-});
+    color: 'white',
+  },
+})
 
-export default WelcomeScreen;
+export default WelcomeScreen

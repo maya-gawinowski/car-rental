@@ -1,47 +1,47 @@
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { goLessColors } from '../welcome-screen/colors';
-import { AppButton } from '../components/AppButton';
-import { RootStackParamList } from '../RootStackParamList';
-import { RestClient } from '../RestClient/RestClient';
-import { Car } from '../../backend/dataModel';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import React, { useEffect, useState } from 'react'
+import { goLessColors } from '../welcome-screen/colors'
+import { AppButton } from '../components/AppButton'
+import { RootStackParamList } from '../RootStackParamList'
+import { RestClient } from '../RestClient/RestClient'
+import ICar from '../../backend/src/models/ICar'
 
-const background = require('../icons/background-or.png');
+const background = require('../icons/background-or.png')
 
-type CarPageScreenRouteProp = RouteProp<RootStackParamList, 'CarPageScreen'>;
+type CarPageScreenRouteProp = RouteProp<RootStackParamList, 'CarPageScreen'>
 type CarPageScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'CarPageScreen'
->;
+>
 type Props = {
-  route: CarPageScreenRouteProp;
-  navigation: CarPageScreenNavigationProp;
-};
+  route: CarPageScreenRouteProp
+  navigation: CarPageScreenNavigationProp
+}
 
 const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { carId, departureDate, returnDate } = route.params;
-  const [car, setCar] = useState<Car>({} as Car);
-  const formattedDepartureDate = departureDate.toDateString();
-  const formattedReturnDate = returnDate.toDateString();
-  const restClient = RestClient.getInstance();
+  const { carId, departureDate, returnDate } = route.params
+  const [car, setCar] = useState<ICar>({} as ICar)
+  const formattedDepartureDate = departureDate.toDateString()
+  const formattedReturnDate = returnDate.toDateString()
+  const restClient = RestClient.getInstance()
 
   useEffect(() => {
     restClient
       .getCar(carId)
-      .then(response => {
-        setCar(response);
+      .then((response) => {
+        setCar(response)
       })
-      .catch(error => {
-        console.error(`Error fetching car ${carId}`, error);
-      });
-  }, [carId]);
+      .catch((error) => {
+        console.error(`Error fetching car ${carId}`, error)
+      })
+  }, [carId])
 
   function getTotalPrice() {
-    const diff = Math.abs(departureDate.getTime() - returnDate.getTime());
-    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-    return diffDays * car.pricePerDay;
+    const diff = Math.abs(departureDate.getTime() - returnDate.getTime())
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24))
+    return diffDays * car.pricePerDay
   }
 
   return (
@@ -72,13 +72,22 @@ const CarPageScreen: React.FC<Props> = ({ route, navigation }) => {
             </Text>
           </View>
           <View style={styles.buttonPanel}>
-            <AppButton onPress={() => {}} title={'Rent'}></AppButton>
+            <AppButton
+              onPress={() => {
+                RestClient.getInstance()
+                  .postReservation(carId, '1', departureDate, returnDate)
+                  .then(() => {
+                    navigation.navigate('ConfirmationScreen')
+                  })
+              }}
+              title={'Rent'}
+            ></AppButton>
           </View>
         </View>
       </ImageBackground>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -129,6 +138,6 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     color: goLessColors.darkBlue,
   },
-});
+})
 
-export default CarPageScreen;
+export default CarPageScreen
