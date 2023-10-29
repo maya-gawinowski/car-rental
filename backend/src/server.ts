@@ -10,8 +10,8 @@ import { authenticate } from './user-authentication/Authenticate'
 import passportConfig from './user-authentication/Passport'
 import Database from './database/Database'
 
-const app: Express = express()
-const PORT: number = 3000
+const app = express()
+const PORT = 3000
 
 const dummyReservation1: IReservation = {
   id: '1',

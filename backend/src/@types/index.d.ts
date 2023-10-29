@@ -1,6 +1,3 @@
-import mongoose from 'mongoose'
-import { DataType } from '../interfaces/dataType'
-
 declare module 'express-serve-static-core' {
   interface User {
     id: string

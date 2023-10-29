@@ -1,3 +1,5 @@
+import { Car } from "../backend/dataModel";
+
 export type RootStackParamList = {
   WelcomeScreen: undefined
   DuHastScreen: undefined
@@ -14,8 +16,19 @@ export type RootStackParamList = {
     locations: string[];
   };
   CarPageScreen: {
+    selectedPlace: string;
+    carId: string;
+    departureDate: Date;
+    selectedSeatsNumber: number;
+    returnDate: Date;
+  }
+  CarReservationScreen: {
+    carModel: string;
     carId: string;
     departureDate: Date;
     returnDate: Date;
+    totalPrice: number;
+    selectedSeatsNumber: number;
+    selectedPlace: string;
   }
 }

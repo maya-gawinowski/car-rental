@@ -2,6 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, StatusBar  } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';  
+
 type CustomHeaderProps = {
     navigation: StackNavigationProp<any, any>;
     title: string;
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#22668D',
     padding: 10,
-    position: 'absolute',
     top: StatusBar.currentHeight, // This accounts for the status bar height
     left: 0,
     right: 0,
