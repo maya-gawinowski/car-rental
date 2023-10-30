@@ -1,6 +1,6 @@
-import { Car } from '../dataModel';
+import ICar from "../src/models/ICar";
 
-export const cars: Car[] = [
+export const cars: ICar[] = [
   {
     id: '1',
     model: 'Volkswagen Golf',
