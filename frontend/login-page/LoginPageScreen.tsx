@@ -21,6 +21,10 @@ const LogInScreen = () => {
   const [password, setPassword] = useState('')
   const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
+  if (RestClient.getInstance().isLoggedIn) {
+    navigation.navigate('WelcomeScreen')
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -64,7 +68,7 @@ const LogInScreen = () => {
                 RestClient.getInstance()
                   .login(email, password)
                   .then(() => navigation.navigate('WelcomeScreen'))
-                  .catch((error) => alert("Unauthorised"))
+                  .catch((error) => alert('Unauthorised'))
               }
             />
           </View>

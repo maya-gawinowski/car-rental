@@ -24,6 +24,10 @@ const SignInScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
+  if (RestClient.getInstance().isLoggedIn) {
+    navigation.navigate('WelcomeScreen')
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground

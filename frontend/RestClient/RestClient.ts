@@ -89,4 +89,8 @@ export class RestClient {
     }
     this.token = response.data.token
   }
+
+  public get isLoggedIn() {
+    return Boolean(this.token)
+  }
 }
