@@ -47,7 +47,7 @@ export class RestClient {
     const response = await axios.get(url, {
       headers: { Authorization: `Bearer ${this.token}` },
     })
-    return response.data
+    return response.data.reservations
   }
 
   public async postReservation(

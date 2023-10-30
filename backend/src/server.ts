@@ -78,22 +78,11 @@ app.get('/cars/:carId', (req: Request, res: Response) => {
   }
 })
 
-interface IUser {
-  id: string
-  name: string
-  email: string
-  password: string
-  reservations: IReservation[]
-}
-
-
-
 app.get('/reservations', authenticate, (req: Request, res: Response) => {
-  const user = req.user! as any;
+  const user = new User(req.user!)
   const reservations = user.getReservations()
   res.json({ reservations })
 })
-
 
 app.post('/reservations', authenticate, (req: Request, res: Response) => {
   const reservationData = req.body
@@ -107,7 +96,7 @@ app.post('/reservations', authenticate, (req: Request, res: Response) => {
   }
   const reservation = Database.instance.createNew('reservations', {
     ...reservationData,
-    userId: (req.user as IUser).id,
+    userId: req.user!.id,
   })
   res.status(201).json(reservation)
 })
