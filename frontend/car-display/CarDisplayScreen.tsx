@@ -11,7 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import CarCard from './components/CarCard';
 import CustomHeader from './components/CarDisplayerHeader';
 import { RootStackParamList } from '../RootStackParamList';
-import { Car } from '../../backend/dataModel';
+import ICar from '../../backend/src/models/ICar';
 import { RestClient } from '../RestClient/RestClient';
 
 const background = require('../icons/background-or.png');
@@ -38,7 +38,7 @@ const CarDisplayScreen: React.FC<Props> = ({ route, navigation }) => {
     selectedSeatsNumber,
     locations,
   } = route.params;
-  const [cars, setCars] = useState<Car[]>([]);
+  const [cars, setCars] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(true);
   const formattedDepartureDate = departureDate.toDateString();
   const formattedReturnDate = returnDate.toDateString();

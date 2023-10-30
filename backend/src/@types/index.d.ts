@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { DataType } from '../interfaces/dataType'
+// Don't remove this import. The code will break otherwise.
+import { Request } from 'express'
 
 declare module 'express-serve-static-core' {
   interface User {

@@ -1,23 +1,21 @@
-import express, { Express, Request, Response } from 'express'
-import { cars } from '../data/cars'
-import { Odense, Aarhus, Copenhagen, Roskilde } from '../data/locations'
-import IReservation from './models/IReservation'
-import ILocation from './models/ILocation'
+import express, { Request, Response } from 'express'
 import morgan from 'morgan'
-import User from './users/User'
+import { cars } from '../data/cars'
+import Database from './database/Database'
 import ErrorMessages from './models/ErrorMessages'
+import IReservation from './models/IReservation'
 import { authenticate } from './user-authentication/Authenticate'
 import passportConfig from './user-authentication/Passport'
-import Database from './database/Database'
+import User from './users/User'
 
-const app: Express = express()
-const PORT: number = 3000
+const app = express()
+const PORT = 3000
 
 const dummyReservation1: IReservation = {
   id: '1',
   start: new Date('2023-10-15'),
   end: new Date('2023-10-20'),
-  carId: '123',
+  carId: '12',
   locationId: '123',
   userId: '123',
 }

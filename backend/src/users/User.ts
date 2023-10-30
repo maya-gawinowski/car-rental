@@ -4,6 +4,8 @@ import IUser from '../models/IUser'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+
+    
 class User {
   private readonly data: IUser
 
