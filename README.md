@@ -16,3 +16,4 @@ Requirements and specifications are defined in the project case document.
 
 The app serves as a foundation for further improvements, such as integrating real data sources, authentication, and payment features.
 
+[Mockups](https://www.figma.com/design/ku5hI8LkPLhGZFfdAEF3rh/GoLess?node-id=0-1&t=SXruxAwPU9OVqbrP-1) (Figma)
